@@ -58,6 +58,19 @@ export class GroupController {
       throw new NotFoundException(`Группа с ID ${id} не найден`);
     }
   }
+  @Get('by/:id')
+  @Roles(Role.ADMIN)
+  @ApiOperation({
+    summary: 'Получить группу по ID',
+  })
+  async findGroupsByCurator(@Param('id') id: string): Promise<Group[]> {
+    try {
+      return await this.groupService.findGroupsByCurator(id);
+    } catch (error) {
+      this.logger.error(`Группа с ID ${id} не найден`);
+      throw new NotFoundException(`Группа с ID ${id} не найден`);
+    }
+  }
 
   @Patch(':id')
   @Roles(Role.ADMIN)

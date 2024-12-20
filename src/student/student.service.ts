@@ -44,7 +44,7 @@ export class StudentService {
   }
 
   async findByNames(names: string): Promise<Student> {
-    const [first_name, last_name, patronymic] = names.split(' ');
+    const [last_name, first_name, patronymic] = names.split(' ');
 
     try {
       const student = await this.manager.findOneOrFail(Student, {

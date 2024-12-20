@@ -13,11 +13,22 @@ export class GroupService {
   ) {}
 
   async create(dto: CreateGroupDto): Promise<Group> {
+    // Проверяем, существует ли группа с таким же названием
+    const existingGroup = await this.manager.findOne(Group, {
+      where: { name: dto.name },
+    });
+
+    if (existingGroup) {
+      throw new Error(`Группа с названием '${dto.name}' уже существует.`);
+    }
+
     const curator = await this.curatorService.findOne(dto.curator_id);
-    const group = await this.manager.create(Group, {
+
+    const group = this.manager.create(Group, {
       name: dto.name,
       curator: curator,
     });
+
     return await this.manager.save(Group, group);
   }
 
@@ -46,4 +57,10 @@ export class GroupService {
     const group = await this.findOne(id);
     await this.manager.remove(Group, group);
   }
+
+  async findGroupsByCurator(curatorId: string): Promise<Group[]> {
+    return await this.manager.find(Group, {
+      where: { curator: { id: curatorId } },
+    });
+  }   
 }

@@ -14,7 +14,11 @@ export class CuratorService {
   }
 
   async findMany(): Promise<Curator[]> {
-    return await this.manager.find(Curator);
+    return await this.manager.find(Curator, {
+      relations: {
+        groups: true,
+      },
+    });
   }
 
   async findOne(id: string): Promise<Curator> {

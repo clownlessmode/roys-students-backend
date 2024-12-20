@@ -76,7 +76,7 @@ _↓ Так же вы можете перейти на сайт\\, по кноп
 
     if (this.isTextMessage(message)) {
       const text = message.text;
-      const fioRegex = /^[А-ЯЁа-яё]+\s[А-ЯЁа-яё]+\s[А-ЯЁа-яё]+$/;
+      const fioRegex = /^[А-ЯЁ][а-яё]+\s[А-ЯЁ][а-яё]+\s[А-ЯЁ][а-яё]+$/;
 
       const loadingStates: string[] = [];
       const baseLoadingText = '⏳ ЗАГРУЗКА';
@@ -237,7 +237,7 @@ _Например: __Иванов Иван Иванович___
 
       // Check if this.messageId is defined before using it
       if (!this.messageId) {
-        console.error('Error: messageId is undefined.');
+        console.error('Error: messageId is undefined\\.');
         return;
       }
 
@@ -260,7 +260,7 @@ _Например: __Иванов Иван Иванович___
       );
 
       // Debugging: Log the confirmation message response
-      console.log('Confirmation message response:', confirmationMessage);
+      console.log('Confirmation message response\\:', confirmationMessage);
     }
   }
 
@@ -281,7 +281,7 @@ _Например: __Иванов Иван Иванович___
     // Проверяем, введен ли пароль
     if (!this.password) {
       await ctx.reply(
-        '❗ Пароль не был введен. Пожалуйста, начните регистрацию заново.',
+        '❗ Пароль не был введен\\. Пожалуйста, начните регистрацию заново\\.',
         { parse_mode: 'MarkdownV2' },
       );
       return;
@@ -292,7 +292,7 @@ _Например: __Иванов Иван Иванович___
       student = await this.studentService.findByNames(this.fio);
     } catch (error) {
       return await ctx.editMessageText(
-        '❌ Студент не найден. Пожалуйста, начните регистрацию заново, или обратитесь к преподавателю.',
+        '❌ Студент не найден\\. Пожалуйста, начните регистрацию заново, или обратитесь к преподавателю\\.',
         { parse_mode: 'MarkdownV2' },
       );
     }

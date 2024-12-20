@@ -19,8 +19,9 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      'http://localhost:3001',
-      'https://r6nt2plp-3001.asse.devtunnels.ms',
+      'http://localhost:3000',
+      'https://r6nt2plp-3000.asse.devtunnels.ms',
+      'https://roys-students-frontend.vercel.app',
     ],
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     allowedHeaders: [

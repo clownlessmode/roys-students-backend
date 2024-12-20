@@ -99,7 +99,7 @@ export class StudentController {
   }
 
   @Patch(':id')
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.CURATOR, Role.STUDENT)
   @ApiOperation({ summary: 'Обновить студента по ID' })
   async update(
     @Param('id') id: string,

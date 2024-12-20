@@ -1,6 +1,7 @@
 import { User } from 'src/auth/entity/user.entity';
 import { Role } from 'src/auth/roles.enum';
-import { Entity, Column } from 'typeorm';
+import { Group } from 'src/group/entity/group.entity';
+import { Entity, Column, OneToMany } from 'typeorm';
 
 @Entity()
 export class Curator extends User {
@@ -12,6 +13,9 @@ export class Curator extends User {
 
   @Column()
   patronymic: string;
+
+  @OneToMany(() => Group, (group) => group.curator)
+  groups: Group[];
 
   constructor() {
     super();
