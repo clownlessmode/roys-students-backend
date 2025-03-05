@@ -23,6 +23,19 @@ export class StudentService {
     });
   }
 
+  async findByGroup(groupId: string): Promise<Student[]> {
+    return await this.manager.find(Student, {
+      where: {
+        group: {
+          id: groupId,
+        },
+      },
+      relations: {
+        group: true,
+      },
+    });
+  }
+
   async getMe(studentId: string): Promise<Student> {
     return this.findOne(studentId);
   }

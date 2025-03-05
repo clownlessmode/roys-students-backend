@@ -115,4 +115,13 @@ export class StudentController {
     this.logger.debug(`Студент с ID ${id} был удален`);
     return { message: `Студент с ID ${id} был удален` };
   }
+
+  @Get('group/:id')
+  @ApiOperation({ summary: 'Получить всех студентов по ID группы' })
+  @Roles(Role.ADMIN, Role.CURATOR)
+  async findByGroup(@Param('id') id: string): Promise<Student[]> {
+    const students = await this.studentService.findByGroup(id);
+    this.logger.debug(`Пользователь получил список студентов группы ${id}`);
+    return students;
+  }
 }
