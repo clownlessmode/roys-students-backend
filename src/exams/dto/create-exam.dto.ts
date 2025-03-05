@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsDate, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class CreateExamDto {
   @ApiProperty({ example: 'ID группы' })
@@ -24,4 +25,15 @@ export class CreateExamDto {
   @IsUUID('4', { message: 'ID куратора должно быть UUID' })
   @IsNotEmpty({ message: 'ID куратора не может быть пустым' })
   curator_id: string;
+
+  @ApiProperty({
+    example: '2024-03-20T10:00:00Z',
+    description: 'Дата проведения экзамена',
+    type: String,
+    format: 'date-time',
+  })
+  @Transform(({ value }) => new Date(value))
+  @IsDate({ message: 'Поле должно быть датой' })
+  @IsNotEmpty({ message: 'Дата проведения экзамена не может быть пустой' })
+  holding_date: Date;
 }

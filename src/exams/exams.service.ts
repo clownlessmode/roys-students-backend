@@ -23,6 +23,7 @@ export class ExamsService {
       discipline: dto.discipline,
       group: group,
       curator: curator,
+      holding_date: dto.holding_date,
     });
 
     return await this.manager.save(Exam, exam);

@@ -28,4 +28,7 @@ export class Exam {
   @ManyToOne(() => Curator, (curator) => curator.exams)
   @JoinColumn({ name: 'curator_id' })
   curator: Curator;
+
+  @Column()
+  holding_date: Date;
 }
