@@ -1,5 +1,6 @@
 import { User } from 'src/auth/entity/user.entity';
 import { Role } from 'src/auth/roles.enum';
+import { Exam } from 'src/exams/entities/exam.entity';
 import { Group } from 'src/group/entity/group.entity';
 import { Entity, Column, OneToMany } from 'typeorm';
 
@@ -16,6 +17,9 @@ export class Curator extends User {
 
   @OneToMany(() => Group, (group) => group.curator)
   groups: Group[];
+
+  @OneToMany(() => Exam, (exam) => exam.curator)
+  exams: Exam[];
 
   constructor() {
     super();

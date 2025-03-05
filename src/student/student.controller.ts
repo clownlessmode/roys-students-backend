@@ -19,6 +19,7 @@ import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/roles.enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UpdateStudentDto } from './dto/updateStudent.dto';
+
 @ApiTags('Студенты')
 @Controller('student')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -32,8 +33,7 @@ export class StudentController {
   @Roles(Role.STUDENT)
   async getMe(@Req() req): Promise<Student> {
     this.logger.debug(req.user);
-    const studentId = req.user.userId; // Извлекаем ID студента из JWT
-    return this.studentService.findOne(studentId);
+    return this.studentService.findOne(req.user.userId);
   }
 
   @Get('/bycurator/curator')
@@ -41,8 +41,7 @@ export class StudentController {
   @Roles(Role.CURATOR)
   async getByCurator(@Req() req): Promise<Student[]> {
     this.logger.debug(req.user);
-    const curatorId = req.user.userId; // Извлекаем ID студента из JWT
-    return this.studentService.getBuCurator(curatorId);
+    return this.studentService.getBuCurator(req.user.userId);
   }
 
   @Post()

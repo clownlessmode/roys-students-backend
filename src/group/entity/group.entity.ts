@@ -1,5 +1,6 @@
 import { DefaultEntity } from 'common/entities/default.entity';
 import { Curator } from 'src/curator/entities/curator.entity';
+import { Exam } from 'src/exams/entities/exam.entity';
 import { Student } from 'src/student/entity/student.entity';
 import {
   Column,
@@ -25,4 +26,7 @@ export class Group extends DefaultEntity {
 
   @OneToMany(() => Student, (student) => student.group)
   students: Student[];
+
+  @OneToMany(() => Exam, (exam) => exam.group)
+  exams: Exam[];
 }

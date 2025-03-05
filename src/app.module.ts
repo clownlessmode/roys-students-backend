@@ -7,6 +7,7 @@ import { CuratorModule } from './curator/curator.module';
 import { StudentModule } from './student/student.module';
 import { GroupModule } from './group/group.module';
 import { AdminModule } from './admin/admin.module';
+import { ExamsModule } from './exams/exams.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AdminModule } from './admin/admin.module';
     StudentModule,
     GroupModule,
     AdminModule,
+    ExamsModule,
   ],
   controllers: [],
   providers: [],
