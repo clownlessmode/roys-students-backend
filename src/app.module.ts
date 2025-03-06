@@ -8,6 +8,7 @@ import { StudentModule } from './student/student.module';
 import { GroupModule } from './group/group.module';
 import { AdminModule } from './admin/admin.module';
 import { ExamsModule } from './exams/exams.module';
+import { MarkModule } from './mark/mark.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ExamsModule } from './exams/exams.module';
     GroupModule,
     AdminModule,
     ExamsModule,
+    MarkModule,
   ],
   controllers: [],
   providers: [],
