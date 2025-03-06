@@ -1,4 +1,12 @@
-import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
@@ -15,6 +23,13 @@ import { Mark } from './entity/mark.entity';
 export class MarkController {
   constructor(private readonly marksService: MarkService) {}
   logger = new Logger('Marks');
+
+  @Get('exam/:examID')
+  @ApiOperation({ summary: 'Получить оценки по экзамену' })
+  @Roles(Role.ADMIN, Role.CURATOR)
+  async getMarksByExam(@Param('examID') examID: string): Promise<Mark[]> {
+    return await this.marksService.getMarksByExam(examID);
+  }
 
   @Post()
   @ApiOperation({ summary: 'Добавить оценку студенту за экзамен/зачет' })

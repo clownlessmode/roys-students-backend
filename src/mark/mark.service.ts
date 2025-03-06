@@ -9,6 +9,13 @@ import { Student } from 'src/student/entity/student.entity';
 export class MarkService {
   constructor(private manager: EntityManager) {}
 
+  async getMarksByExam(examID: string): Promise<Mark[]> {
+    return await this.manager.find(Mark, {
+      where: { exam: { id: examID } },
+      relations: ['student', 'exam'],
+    });
+  }
+
   async create(dto: CreateMarkDto): Promise<Mark> {
     const exam = await this.manager.findOne(Exam, {
       where: { id: dto.examId },
