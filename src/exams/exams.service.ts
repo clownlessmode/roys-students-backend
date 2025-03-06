@@ -5,6 +5,7 @@ import { Exam } from './entities/exam.entity';
 import { GroupService } from 'src/group/group.service';
 import { CuratorService } from 'src/curator/curator.service';
 import { EntityManager } from 'typeorm';
+import { ExamEnum } from './enums/exam.enum';
 
 @Injectable()
 export class ExamsService {
@@ -18,6 +19,7 @@ export class ExamsService {
     const curator = await this.curatorService.findOne(dto.curator_id);
 
     const exam = await this.manager.create(Exam, {
+      type: dto.type,
       semester: dto.semester,
       course: dto.course,
       discipline: dto.discipline,
@@ -29,8 +31,9 @@ export class ExamsService {
     return await this.manager.save(Exam, exam);
   }
 
-  async findAll(): Promise<Exam[]> {
+  async findAll(type: ExamEnum): Promise<Exam[]> {
     return await this.manager.find(Exam, {
+      where: { type },
       relations: {
         group: true,
         curator: true,

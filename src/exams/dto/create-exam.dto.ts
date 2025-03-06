@@ -1,12 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsDate, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsDate, IsEnum, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { ExamEnum } from '../enums/exam.enum';
 
 export class CreateExamDto {
   @ApiProperty({ example: 'ID группы' })
   @IsUUID('4', { message: 'ID группы должно быть UUID' })
   @IsNotEmpty({ message: 'ID группы не может быть пустым' })
   group_id: string;
+
+  @ApiProperty({ example: 'Exam | Credit' })
+  @IsEnum(ExamEnum, {
+    message: 'Тип экзамена должен быть либо "Exam", либо "Credit"',
+  })
+  @IsNotEmpty({ message: 'Тип экзамена не может быть пустым' })
+  type: ExamEnum;
 
   @ApiProperty({ example: 1 })
   @IsNotEmpty({ message: 'Семестр не может быть пустым' })

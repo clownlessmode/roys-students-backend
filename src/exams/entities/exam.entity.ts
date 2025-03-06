@@ -1,5 +1,7 @@
 import { Curator } from 'src/curator/entities/curator.entity';
 import { Group } from 'src/group/entity/group.entity';
+import { ExamEnum } from '../enums/exam.enum';
+
 import {
   Entity,
   Column,
@@ -12,6 +14,9 @@ import {
 export class Exam {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column({ type: 'enum', enum: ExamEnum, nullable: false })
+  type: ExamEnum;
 
   @Column()
   semester: number;
