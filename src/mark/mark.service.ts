@@ -11,7 +11,7 @@ export class MarkService {
 
   async create(dto: CreateMarkDto): Promise<Mark> {
     const exam = await this.manager.findOne(Exam, {
-      where: { id: dto.examID },
+      where: { id: dto.examId },
     });
     if (!exam) throw new NotFoundException('Экзамен не найден');
 

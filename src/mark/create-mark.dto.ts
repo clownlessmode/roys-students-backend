@@ -11,7 +11,7 @@ export class CreateMarkDto {
   @ApiProperty({ example: 'UUID экзамена' })
   @IsUUID('4', { message: 'ID экзамена должно быть UUID' })
   @IsNotEmpty({ message: 'ID экзамена не может быть пустым' })
-  examID: string;
+  examId: string;
 
   @ApiProperty({ example: 'UUID студента' })
   @IsUUID('4', { message: 'ID студента должно быть UUID' })
