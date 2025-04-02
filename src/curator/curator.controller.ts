@@ -19,14 +19,21 @@ import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/roles.enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { GetMeDto } from './dto/getme-dto';
 
 @ApiTags('Преподаватели')
 @Controller('curator')
-@UseGuards(JwtAuthGuard, RolesGuard)
-@ApiBearerAuth()
+// @UseGuards(JwtAuthGuard, RolesGuard)
+// @ApiBearerAuth()s
 export class CuratorController {
   constructor(private readonly curatorService: CuratorService) {}
   private readonly logger = new Logger('CuratorController');
+
+  @Post('me')
+  @ApiOperation({ summary: 'Получить информацию о себе' })
+  async getMe(@Body() dto: GetMeDto) {
+    return await this.curatorService.getMe(dto);
+  }
 
   @Post()
   @Roles(Role.ADMIN)

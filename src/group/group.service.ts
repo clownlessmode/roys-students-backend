@@ -38,7 +38,14 @@ export class GroupService {
 
   async findOne(id: string): Promise<Group> {
     try {
-      return await this.manager.findOneOrFail(Group, { where: { id } });
+      return await this.manager.findOneOrFail(Group, {
+        where: { id },
+        relations: {
+          students: {
+            telegram: true,
+          },
+        },
+      });
     } catch (error) {
       throw new NotFoundException(`Группа с ID ${id} не найдена`);
     }
@@ -62,5 +69,5 @@ export class GroupService {
     return await this.manager.find(Group, {
       where: { curator: { id: curatorId } },
     });
-  }   
+  }
 }

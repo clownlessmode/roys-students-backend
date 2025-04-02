@@ -9,9 +9,11 @@ import { GroupModule } from './group/group.module';
 import { AdminModule } from './admin/admin.module';
 import { ExamsModule } from './exams/exams.module';
 import { MarkModule } from './mark/mark.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     EnvFilePathModule,
     PostgresModule,
     BotModule,

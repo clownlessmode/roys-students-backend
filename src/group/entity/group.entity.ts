@@ -8,7 +8,6 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
 } from 'typeorm';
 @Entity()
 export class Group extends DefaultEntity {

@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import escapeMarkdownV2 from 'common/func/escaping';
 import { Action, Ctx, Start, Update, On } from 'nestjs-telegraf';
+import { Exam } from 'src/exams/entities/exam.entity';
+import { Student } from 'src/student/entity/student.entity';
 import { StudentService } from 'src/student/student.service';
-import { Markup, Context } from 'telegraf';
+import { Markup, Context, Telegraf } from 'telegraf';
 
 @Update()
 @Injectable()
@@ -30,7 +32,7 @@ export class BotService {
       }
     }
     const user = ctx.from;
-    const baseUrl = 'https://r6nt2plp-3001.asse.devtunnels.ms/login';
+    const baseUrl = 'https://roys-students-frontend.vercel.app/login';
     const queryParams = student
       ? `?login=${student.login}&password=${student.password}`
       : '';
@@ -317,7 +319,7 @@ _Например: __Иванов Иван Иванович___
     const escapedPassword = escapeMarkdownV2(this.password);
 
     // Выводим сообщение с реальным логином и паролем
-    const baseUrl = 'https://r6nt2plp-3001.asse.devtunnels.ms/login';
+    const baseUrl = 'https://roys-students-frontend.vercel.app/login';
     const queryParams = student
       ? `?login=${student.login}&password=${student.password}`
       : '';

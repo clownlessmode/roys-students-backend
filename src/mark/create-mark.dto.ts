@@ -1,12 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsUUID, Max, Min } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString, IsUUID, Max, Min } from 'class-validator';
 
 export class CreateMarkDto {
   @ApiProperty({ example: 5 })
-  @IsInt({ message: 'Оценка должна быть целым числом' })
-  @Min(2, { message: 'Минимальная оценка — 2' })
-  @Max(5, { message: 'Максимальная оценка — 5' })
-  mark: number;
+  @IsString({ message: 'Оценка должна быть строкой' })
+  mark: string;
 
   @ApiProperty({ example: 'UUID экзамена' })
   @IsUUID('4', { message: 'ID экзамена должно быть UUID' })

@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ExamsService } from './exams.service';
 import { CreateExamDto } from './dto/create-exam.dto';
-import { UpdateExamDto } from './dto/update-exam.dto';
+
 import {
   ApiTags,
   ApiBearerAuth,
@@ -26,6 +26,7 @@ import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/roles.enum';
 import { Exam } from './entities/exam.entity';
 import { ExamEnum } from './enums/exam.enum';
+import { AddLinkDto } from './dto/add-link.dto';
 
 @ApiTags('Экзамены')
 @Controller('exams')
@@ -71,9 +72,18 @@ export class ExamsController {
     return this.examsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExamDto: UpdateExamDto) {
-    return this.examsService.update(+id, updateExamDto);
+  async notify() {}
+
+  @Patch(':id/link')
+  @ApiOperation({ summary: 'Добавить ссылку на билеты к экзамену' })
+  @Roles(Role.ADMIN, Role.CURATOR)
+  async addLink(
+    @Param('id') id: string,
+    @Body() dto: AddLinkDto,
+  ): Promise<{ message: string }> {
+    await this.examsService.addLink(id, dto.link);
+    this.logger.debug(`Ссылка добавлена к экзамену с ID ${id}`);
+    return { message: `Ссылка добавлена к экзамену с ID ${id}` };
   }
 
   @Delete(':id')

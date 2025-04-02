@@ -13,8 +13,8 @@ export class Mark {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'int', nullable: false })
-  mark: number;
+  @Column({ nullable: false })
+  mark: string;
 
   @ManyToOne(() => Exam, (exam) => exam.id, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'exam_id' })

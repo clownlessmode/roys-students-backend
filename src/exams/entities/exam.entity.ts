@@ -36,4 +36,7 @@ export class Exam {
 
   @Column()
   holding_date: Date;
+
+  @Column({ nullable: true, default: null })
+  link: string;
 }

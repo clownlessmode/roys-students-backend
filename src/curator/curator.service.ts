@@ -3,6 +3,7 @@ import { CreateCuratorDto } from './dto/create-curator.dto';
 import { UpdateCuratorDto } from './dto/update-curator.dto';
 import { Curator } from './entities/curator.entity';
 import { EntityManager } from 'typeorm';
+import { GetMeDto } from './dto/getme-dto';
 
 @Injectable()
 export class CuratorService {
@@ -19,6 +20,13 @@ export class CuratorService {
         groups: true,
       },
     });
+  }
+
+  async getMe(dto: GetMeDto) {
+    const curator = await this.manager.findOneOrFail(Curator, {
+      where: { id: dto.id },
+    });
+    return curator;
   }
 
   async findOne(id: string): Promise<Curator> {
