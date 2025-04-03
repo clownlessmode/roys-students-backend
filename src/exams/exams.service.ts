@@ -40,7 +40,7 @@ export class ExamsService {
     );
 
     for (const student of studentsWithTelegram) {
-      const res = await this.notifyStudentAboutExam(student, exam);
+      const res = await this.notifyStudentAboutExamCreated(student, exam);
 
       this.logger.log('Отправил');
     }
@@ -59,28 +59,6 @@ export class ExamsService {
         curator: true,
       },
     });
-
-    const THREE_DAYS_IN_MS = 3 * 24 * 60 * 60 * 1000;
-    const now = new Date();
-
-    for (const exam of exams) {
-      const examDate = new Date(exam.holding_date); // Предполагаем, что у экзамена есть поле `date`
-      console.log(examDate, now.getTime());
-      // Пропускаем экзамены, если они раньше чем через 3 дня
-      if (examDate.getTime() - now.getTime() < THREE_DAYS_IN_MS) {
-        continue;
-      }
-
-      // Фильтруем студентов с telegram
-      const studentsWithTelegram = exam.group.students.filter(
-        (student) => !!student.telegram,
-      );
-
-      for (const student of studentsWithTelegram) {
-        const res = await this.notifyStudentAboutExam(student, exam);
-        this.logger.log(`Отправил уведомление студенту ${student.first_name}`);
-      }
-    }
 
     return exams;
   }
@@ -169,7 +147,7 @@ export class ExamsService {
     this.logger.log('✅ [END] Уведомление за 3 дня завершено');
   }
 
-  async notifyStudentAboutExam(student: Student, exam: Exam) {
+  async notifyStudentAboutExamLink(student: Student, exam: Exam) {
     // Проверка, есть ли Telegram ID
     if (!student.telegram?.telegram_id) {
       console.warn(
@@ -187,7 +165,51 @@ export class ExamsService {
     });
 
     const message = `
-📢 Уведомление о экзамене
+📢 Появилась ссылка на билеты
+
+👤 ${student.last_name} ${student.first_name} ${student.patronymic}
+📚 Дисциплина: ${exam.discipline}
+📅 Дата проведения: ${formattedDate}
+
+${exam.link ? '🔗 Ссылка на билеты' + exam.link : ''}
+
+Удачи на экзамене
+    `;
+
+    try {
+      await this.bot.telegram.sendMessage(
+        student.telegram.telegram_id,
+        escapeMarkdownV2(message),
+        {
+          parse_mode: 'MarkdownV2',
+        },
+      );
+      console.log(`✅ Уведомление отправлено студенту ${student.last_name}`);
+    } catch (error) {
+      console.error(
+        `❌ Ошибка при отправке сообщения студенту ${student.last_name}: ${error.message}`,
+      );
+    }
+  }
+  async notifyStudentAboutExamCreated(student: Student, exam: Exam) {
+    // Проверка, есть ли Telegram ID
+    if (!student.telegram?.telegram_id) {
+      console.warn(
+        `У студента ${student.last_name} ${student.first_name} нет Telegram ID`,
+      );
+      return;
+    }
+
+    const examDate = exam.holding_date;
+    const formattedDate = examDate.toLocaleDateString('ru-RU', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
+    const message = `
+📢 Уведомление о предстоящем экзамене
 
 👤 ${student.last_name} ${student.first_name} ${student.patronymic}
 📚 Дисциплина: ${exam.discipline}
@@ -280,7 +302,7 @@ ${exam.link ? '🔗 Ссылка на билеты' + exam.link : ''}
     );
 
     for (const student of studentsWithTelegram) {
-      const res = await this.notifyStudentAboutExam(student, exam);
+      const res = await this.notifyStudentAboutExamLink(student, exam);
 
       this.logger.log('Отправил');
     }
