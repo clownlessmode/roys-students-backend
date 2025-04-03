@@ -33,7 +33,11 @@ export class GroupService {
   }
 
   async findMany(): Promise<Group[]> {
-    return await this.manager.find(Group);
+    return await this.manager.find(Group, {
+      relations: {
+        students: true,
+      },
+    });
   }
 
   async findOne(id: string): Promise<Group> {
